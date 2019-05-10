@@ -1,7 +1,6 @@
 const express = require("express");
-const keys = require('./config/keys');
 
-const stripe = require('stripe')(keys.stripeSecretkey);
+const stripe = require('stripe')('sk_test_PtCrCm27nCrvMIfSNami46BX00okKnz25c');
 
 const bodyParser = require('body-parser');
 
@@ -23,14 +22,11 @@ app.use(express.static('public'))
 
 //index route
 app.get('/', (req,res) =>{
-  res.render('index', {
-    stripePublishablekey:keys.stripePublishablekey
-  });
+  res.render('index');
 });
 //charge route
 app.post('/charge', (req, res) =>{
   const amount = 2500;
-
   stripe.customers.create({
     email:req.body.stripeEmail,
     source:req.body.stripeToken
